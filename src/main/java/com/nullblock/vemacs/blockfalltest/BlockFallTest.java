@@ -101,7 +101,7 @@ public class BlockFallTest extends JavaPlugin implements Listener {
                         b.getTypeId(), b.getData(), b.getX(), b.getY(), b.getZ(),
                         t.getTypeId(), t.getData()));
             } else {
-                getLogger().info("Spammed at " + v.getX() + ", " + v.getZ());
+                getLogger().info(String.format("Spammed at chunk at %d, %d, block at %d, %d" , v.getX() * 16, v.getZ() * 16, b.getX(), b.getZ()));
             }
     }
 
