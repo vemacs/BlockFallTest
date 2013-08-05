@@ -96,12 +96,16 @@ public class BlockFallTest extends JavaPlugin implements Listener {
     public void onBlockFromTo(BlockFromToEvent event) {
         Block b = event.getBlock();
         Block t = event.getToBlock();
-        if (!newChunks.contains(new XZ(b.getX() >> 4, b.getZ() >> 4))) {
-        this.getLogger().info(String.format("Block %d:%d at %d, %d, %d turned into %d:%d",
-                b.getTypeId(), b.getData(), b.getX(), b.getY(), b.getZ(),
-                t.getTypeId(), t.getData()));
-        } else {
-            getLogger().info(String.format("Spammed at chunk at %d, %d, block at %d, %d" , b.getX() >> 4, b.getZ() >> 4, b.getX(), b.getZ()));
+        int hc = new XZ(b.getX() >> 4, b.getZ() >> 4).hashCode();
+        for (XZ v : newChunks) {
+            if (v.hashCode() == hc) {
+                this.getLogger().info(String.format("Block %d:%d at %d, %d, %d turned into %d:%d",
+
+                        b.getTypeId(), b.getData(), b.getX(), b.getY(), b.getZ(),
+                        t.getTypeId(), t.getData()));
+            } else {
+                getLogger().info(String.format("Spammed at chunk at %d, %d, block at %d, %d" , b.getX() >> 4, b.getZ() >> 4, b.getX(), b.getZ()));
+            }
         }
     }
 
