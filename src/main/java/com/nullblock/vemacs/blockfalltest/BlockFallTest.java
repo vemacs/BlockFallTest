@@ -15,12 +15,13 @@ import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BlockFallTest extends JavaPlugin implements Listener {
 
-    private static List<XZ> newChunks = new ArrayList<XZ>();
+    private static Set<XZ> newChunks = new HashSet<XZ>();
 
     public void onDisable() {
     }
@@ -92,17 +93,16 @@ public class BlockFallTest extends JavaPlugin implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-         public void onBlockFromTo(BlockFromToEvent event) {
+    public void onBlockFromTo(BlockFromToEvent event) {
         Block b = event.getBlock();
-        for (XZ v : newChunks)
-            if (v.includes(b.getX(), b.getY())) {
-                Block t = event.getToBlock();
-                this.getLogger().info(String.format("Block %d:%d at %d, %d, %d turned into %d:%d",
-                        b.getTypeId(), b.getData(), b.getX(), b.getY(), b.getZ(),
-                        t.getTypeId(), t.getData()));
-            } else {
-                getLogger().info(String.format("Spammed at chunk at %d, %d, block at %d, %d" , v.getX() * 16, v.getZ() * 16, b.getX(), b.getZ()));
-            }
+        Block t = event.getToBlock();
+        if (!newChunks.contains(new XZ(b.getX() >> 4, b.getZ() >> 4))) {
+        this.getLogger().info(String.format("Block %d:%d at %d, %d, %d turned into %d:%d",
+                b.getTypeId(), b.getData(), b.getX(), b.getY(), b.getZ(),
+                t.getTypeId(), t.getData()));
+        } else {
+            getLogger().info(String.format("Spammed at chunk at %d, %d, block at %d, %d" , b.getX() >> 4, b.getZ() >> 4, b.getX(), b.getZ()));
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
