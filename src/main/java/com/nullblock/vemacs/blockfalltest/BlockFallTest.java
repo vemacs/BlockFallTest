@@ -10,14 +10,11 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.StructureGrowEvent;
-import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -110,10 +107,10 @@ public class BlockFallTest extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityInteract(EntityInteractEvent event) {
         Block b = event.getBlock();
-        this.getLogger().info(String.format("Block %d:%d (%s) at %d, %d, %d was interacted",
-                b.getTypeId(), b.getData(), b.getType().toString(), b.getX(), b.getY(), b.getZ()));
+        this.getLogger().info(String.format("Block %d:%d (%s) at %d, %d, %d was interacted with by %s",
+                b.getTypeId(), b.getData(), b.getType().toString(), b.getX(), b.getY(), b.getZ(),
+                event.getEntityType().getName()));
     }
-
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onStructureGrow(StructureGrowEvent event) {
