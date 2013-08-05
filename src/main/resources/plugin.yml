@@ -1,0 +1,6 @@
+author: vemacs
+description: ammer3 is kil
+main: com.nullblock.vemacs.blockfalltest.BlockFallTest
+name: BlockFallTest
+version: '1.0'
+load: STARTUP
