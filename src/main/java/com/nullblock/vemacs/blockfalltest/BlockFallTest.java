@@ -15,12 +15,12 @@ import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BlockFallTest extends JavaPlugin implements Listener {
 
-    private static List<XZ> newChunks = new CopyOnWriteArrayList<XZ>();
+    private static List<XZ> newChunks = new ArrayList<XZ>();
 
     public void onDisable() {
     }
@@ -40,7 +40,7 @@ public class BlockFallTest extends JavaPlugin implements Listener {
                     newChunks.remove(v);
                 }
             };
-            getServer().getScheduler().runTaskLaterAsynchronously(this, r, 20);
+            getServer().getScheduler().runTaskLater(this, r, 20);
         }
     }
 
@@ -94,14 +94,15 @@ public class BlockFallTest extends JavaPlugin implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
          public void onBlockFromTo(BlockFromToEvent event) {
         Block b = event.getBlock();
-        for (XZ v : newChunks) {
+        for (XZ v : newChunks)
             if (v.includes(b.getX(), b.getY())) {
                 Block t = event.getToBlock();
                 this.getLogger().info(String.format("Block %d:%d at %d, %d, %d turned into %d:%d",
                         b.getTypeId(), b.getData(), b.getX(), b.getY(), b.getZ(),
                         t.getTypeId(), t.getData()));
+            } else {
+                getLogger().info("Spammed at " + v.getX() + ", " + v.getZ());
             }
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
