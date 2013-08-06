@@ -22,12 +22,22 @@ import java.util.Set;
 public class BlockFallTest extends JavaPlugin implements Listener {
 
     private static Set<XZ> newChunks = new HashSet<XZ>();
+    private static long currentSpam = 0L;
 
     public void onDisable() {
     }
 
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
+        BukkitRunnable r = new BukkitRunnable() {
+            public void run() {
+                if (currentSpam != 0) {
+                   getLogger().info("FromTo spammed " + currentSpam + " times");
+                   currentSpam = 0;
+                }
+            }
+        };
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, r, 0, 20);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -104,7 +114,7 @@ public class BlockFallTest extends JavaPlugin implements Listener {
                         b.getTypeId(), b.getData(), b.getX(), b.getY(), b.getZ(),
                         t.getTypeId(), t.getData()));
             } else {
-                getLogger().info(String.format("Spammed at chunk at %d, %d, block at %d, %d" , b.getX() >> 4, b.getZ() >> 4, b.getX(), b.getZ()));
+                currentSpam++;
             }
         }
     }
