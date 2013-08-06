@@ -32,7 +32,7 @@ public class BlockFallTest extends JavaPlugin implements Listener {
         BukkitRunnable r = new BukkitRunnable() {
             public void run() {
                 if (currentSpam != 0) {
-                   getLogger().info("FromTo spammed " + currentSpam + " times");
+                   getLogger().info("FromTo spammed " + currentSpam + " times, " + newChunks.size() + " new chunks");
                    currentSpam = 0;
                 }
             }
